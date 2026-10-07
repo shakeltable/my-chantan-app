@@ -1,0 +1,345 @@
+{
+ "v": 1,
+ "at": "2026-10-07T21:59:02.848Z",
+ "incomplete": true,
+ "pendingKeysByLang": {
+  "fr": 0,
+  "es": 0,
+  "en": 0
+ },
+ "a": [
+  {
+   "path": "src/components/admin/AdsManager.tsx",
+   "reason": "unclassified",
+   "snippet": "الدردشة",
+   "line": 16
+  },
+  {
+   "path": "src/components/admin/AdsManager.tsx",
+   "reason": "unclassified",
+   "snippet": "أسفل الغرفة",
+   "line": 16
+  },
+  {
+   "path": "src/components/admin/AdsManager.tsx",
+   "reason": "unclassified",
+   "snippet": "أعلى الغرفة",
+   "line": 16
+  },
+  {
+   "path": "src/components/admin/AdsManager.tsx",
+   "reason": "unclassified",
+   "snippet": "نافذة منبثقة هادئة",
+   "line": 16
+  },
+  {
+   "path": "src/components/admin/AdsManager.tsx",
+   "reason": "unclassified",
+   "snippet": "تدوير في كل الأماكن",
+   "line": 16
+  },
+  {
+   "path": "src/components/landing/HeroFrame.tsx",
+   "reason": "unclassified",
+   "snippet": "start start",
+   "line": 18
+  },
+  {
+   "path": "src/components/landing/HeroFrame.tsx",
+   "reason": "unclassified",
+   "snippet": "end start",
+   "line": 18
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "الصوت والصورة",
+   "line": 33
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "كاميرا وميكروفون بإذن المسؤول",
+   "line": 33
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "المسؤول يقرّر من يتحدث، ويسحب الإذن في أي لحظة. وتستطيع مشاركة شاشتك مع الجميع.",
+   "line": 33
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "الملفات",
+   "line": 34
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "صور ومستندات على اللوحة نفسها",
+   "line": 34
+  },
+  {
+   "path": "src/components/landing/LeadStory.tsx",
+   "reason": "unclassified",
+   "snippet": "ارفع الصورة فتظهر على السبورة أمام الجميع، أما المستندات فتُحفظ وتُنزَّل لاحقًا.",
+   "line": 34
+  },
+  {
+   "path": "src/components/room/Whiteboard.tsx",
+   "reason": "unclassified",
+   "snippet": "600 11px Vazirmatn, sans-serif",
+   "line": 100
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "template-logic",
+   "snippet": "`${f.w} ${o.size || 28}px \"${f.id}\", Vazirmatn, sans-serif`",
+   "line": 23
+  },
+  {
+   "path": "src/lib/roomboard.ts",
+   "reason": "template-logic",
+   "snippet": "`${(n / 1024).toFixed(0)} KB`",
+   "line": 98
+  },
+  {
+   "path": "src/lib/roomboard.ts",
+   "reason": "template-logic",
+   "snippet": "`${(n / 1024 / 1024).toFixed(1)} MB`",
+   "line": 99
+  },
+  {
+   "path": "src/components/landing/FeatureIndex.tsx",
+   "reason": "unclassified",
+   "snippet": "\"٠١\", \"٠٢\", \"٠٣\"",
+   "count": 6
+  }
+ ],
+ "b": [],
+ "c": [
+  {
+   "path": "src/components/ErrorBoundary.tsx",
+   "reason": "class-component",
+   "snippet": "Something went wrong",
+   "line": 32
+  },
+  {
+   "path": "src/components/ErrorBoundary.tsx",
+   "reason": "class-component",
+   "snippet": "An unexpected error occurred. Try refreshing the page.",
+   "line": 34
+  },
+  {
+   "path": "src/components/ErrorBoundary.tsx",
+   "reason": "class-component",
+   "snippet": "Reload",
+   "line": 45
+  },
+  {
+   "path": "src/components/Footer.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Brand",
+   "line": 24
+  },
+  {
+   "path": "src/components/Header.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Brand",
+   "line": 20
+  },
+  {
+   "path": "src/components/JoinForm.tsx",
+   "reason": "error-text",
+   "snippet": "أدخل كود الغرفة",
+   "line": 45
+  },
+  {
+   "path": "src/components/JoinForm.tsx",
+   "reason": "error-text",
+   "snippet": "لم نجد غرفة بهذا الكود. تأكد منه وحاول مجددًا",
+   "line": 47
+  },
+  {
+   "path": "src/components/JoinForm.tsx",
+   "reason": "error-text",
+   "snippet": "تعذّر إنشاء الغرفة، حاول مرة أخرى",
+   "line": 54
+  },
+  {
+   "path": "src/components/JoinForm.tsx",
+   "reason": "error-text",
+   "snippet": "أُنشئت الغرفة لكن تعذّر تفعيل كلمة السر. افتحها وأضفها من لوحة «المشاركون»",
+   "line": 56
+  },
+  {
+   "path": "src/components/MotionReveal.tsx",
+   "reason": "unclassified-token",
+   "snippet": "-80px",
+   "line": 19
+  },
+  {
+   "path": "src/components/room/FilesPanel.tsx",
+   "reason": "homegrown-dictionary",
+   "snippet": "tr()/translate() calls: الملفات · التسجيلات",
+   "count": 2
+  },
+  {
+   "path": "src/components/room/Whiteboard.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Vazirmatn",
+   "line": 203
+  },
+  {
+   "path": "src/components/room/Whiteboard.tsx",
+   "reason": "unclassified-token",
+   "snippet": "[data-textbar]",
+   "line": 388
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "\"\", Vazirmatn, sans-serif",
+   "line": 25
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "24px \"\"",
+   "line": 33
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "أبجد abc",
+   "line": 33
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "600 11px Vazirmatn, sans-serif",
+   "line": 172
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "ملف مرفوع",
+   "line": 173
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "600 15px Vazirmatn, sans-serif",
+   "line": 174
+  },
+  {
+   "path": "src/lib/boardDraw.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "ملف",
+   "line": 175
+  },
+  {
+   "path": "src/lib/chantan-ai.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "AI request failed ()",
+   "line": 94
+  },
+  {
+   "path": "src/lib/roomboard.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "غير محدد",
+   "line": 30
+  },
+  {
+   "path": "src/lib/roomboard.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "Aa1!",
+   "line": 78
+  },
+  {
+   "path": "src/lib/tracking.ts",
+   "reason": "excluded-dir-text",
+   "snippet": "PageView",
+   "line": 73
+  },
+  {
+   "path": "index.html",
+   "reason": "tab-title",
+   "snippet": "<title>روم بورد — سبورة بيضاء تعاونية حيّة</title>"
+  },
+  {
+   "path": "src/",
+   "reason": "db-content",
+   "snippet": "tables read by the app: site_ads, site_settings, rooms, room_access, analytics_events, messages, room_events, board_ops",
+   "count": 8
+  },
+  {
+   "path": "supabase/functions/_shared/cors.ts",
+   "reason": "server-messages",
+   "snippet": "2 text(s) across 1 edge function file(s)",
+   "count": 2
+  },
+  {
+   "path": "src/",
+   "reason": "date-locale",
+   "snippet": "dates formatted for \"ar\" only (1 place)",
+   "count": 1
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Room"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Board"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Google Analytics / Ads"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Facebook Pixel"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "TikTok Pixel"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "G-XXXXXXXXXX"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Room Board"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Google AdSense"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Oops! Page not found"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Return to Home"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Caveat"
+  }
+ ]
+}
