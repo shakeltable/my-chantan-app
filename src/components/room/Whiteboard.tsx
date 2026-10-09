@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useReducer, useRef, useState, type RefObject } from "react"
 import { Maximize, Minus, Plus } from "lucide-react"
-import { drawLock, drawObj, fontFamily, fontWeight, handlesOf, hitObj, moveObj, objBounds, pickObj, scaleObj, viewColor } from "@/lib/boardDraw"
+import { BOX_SHAPES, drawLock, drawObj, fontFamily, fontWeight, handlesOf, hitObj, moveObj, objBounds, pickObj, scaleObj, viewColor } from "@/lib/boardDraw"
 import { toast } from "sonner"
 import { SelectionBar } from "./SelectionBar"
+import { deleteSelection, duplicateSelection, objectsInRect, selectAll } from "@/lib/boardSelect"
 import type { BoardObj, BoardStore, Tool } from "@/lib/boardStore"
 import type { BoardActions } from "@/hooks/useBoardSync"
 import { TextOptions } from "./TextOptions"
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const uid = () => crypto.randomUUID()
+const SHAPE_OF: Partial<Record<Tool, BoardObj["type"]>> = { rect: "rect", square: "rect", circle: "ellipse", ellipse: "ellipse", triangle: "triangle", diamond: "diamond", star: "star", line: "line" }
 interface Editor { id: string; wx: number; wy: number; existing: boolean }
 
 export function Whiteboard({ store, actions, me, tool, color, setColor, width, font, setFont, textSize, setTextSize, canvasRef, onDropFile, canEdit, dark, isAdmin }: Props) {
@@ -33,6 +35,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
   const drag = useRef<{ sx: number; sy: number; origs: BoardObj[]; moved: boolean } | null>(null)
   const xform = useRef<{ h: { x: number; y: number; ax: number; ay: number }; orig: BoardObj; px: number; py: number; moved: boolean } | null>(null)
   const prevSel = useRef(0)
+  const marq = useRef<{ x0: number; y0: number; x1: number; y1: number; add: boolean; base: Set<string>; moved: boolean } | null>(null)
   const erasing = useRef(false)
   const space = useRef(false)
   const textStart = useRef<{ wx: number; wy: number; hit?: BoardObj } | null>(null)
@@ -52,7 +55,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       const c = canvasRef.current
       if (!c) return
       const ctx = c.getContext("2d")!
-      const dpr = window.devicePixelRatio || 1
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
       const { w, h } = store.size
       const { x, y, s } = store.view
       ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -69,8 +72,11 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       ctx.setTransform(dpr * s, 0, 0, dpr * s, dpr * x, dpr * y)
       const now = Date.now()
       const fresh = (id: string) => now - (store.liveT.get(id) || 0) < 6000
+      // with many objects, skip the ones fully outside the visible area
+      const vw = store.objects.size > 30 ? store.viewWorld() : null
       store.objects.forEach((o) => {
         if (o.id === store.hideId) return
+        if (vw && o.type !== "connector") { const bb = objBounds(o, store.objects); if (bb[2] < vw.x0 - 40 || bb[0] > vw.x1 + 40 || bb[3] < vw.y0 - 40 || bb[1] > vw.y1 + 40) return }
         if (o.type === "text" && store.live.has(o.id) && fresh(o.id)) return
         drawObj(ctx, o, redraw, store.objects, store.dark)
         if (o.locked && o.type !== "connector") { const bb = objBounds(o, store.objects); drawLock(ctx, bb[2] - 8 / s, bb[1] - 12 / s, s) }
@@ -87,10 +93,17 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       if (store.canTransform && store.selection.size === 1) {
         const so = store.objects.get([...store.selection][0])
         if (so) {
-          const r = 5 / s
-          ctx.fillStyle = "#ffffff"; ctx.strokeStyle = "#229fb6"; ctx.lineWidth = 1.5 / s
-          handlesOf(so, store.objects, s).forEach((h) => { ctx.beginPath(); ctx.rect(h.x - r, h.y - r, r * 2, r * 2); ctx.fill(); ctx.stroke() })
+          const r = 6 / s
+          ctx.fillStyle = "#ffffff"; ctx.strokeStyle = "#229fb6"; ctx.lineWidth = 2 / s
+          handlesOf(so, store.objects, s).forEach((h) => { ctx.beginPath(); ctx.arc(h.x, h.y, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke() })
         }
+      }
+      const mq = marq.current
+      if (mq && mq.moved) {
+        ctx.fillStyle = "rgba(34,159,182,0.12)"; ctx.strokeStyle = "#229fb6"; ctx.lineWidth = 1.5 / s; ctx.setLineDash([5 / s, 4 / s])
+        ctx.fillRect(Math.min(mq.x0, mq.x1), Math.min(mq.y0, mq.y1), Math.abs(mq.x1 - mq.x0), Math.abs(mq.y1 - mq.y0))
+        ctx.strokeRect(Math.min(mq.x0, mq.x1), Math.min(mq.y0, mq.y1), Math.abs(mq.x1 - mq.x0), Math.abs(mq.y1 - mq.y0))
+        ctx.setLineDash([])
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       store.cursors.forEach((cu) => {
@@ -106,7 +119,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
     const resize = () => {
       const el = wrap.current, c = canvasRef.current
       if (!el || !c) return
-      const dpr = window.devicePixelRatio || 1
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
       const w = el.clientWidth, h = el.clientHeight
       c.width = Math.round(w * dpr); c.height = Math.round(h * dpr)
       c.style.width = w + "px"; c.style.height = h + "px"
@@ -148,14 +161,19 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       if (typing(e)) return
       if (e.code === "Space") { space.current = true; e.preventDefault() }
       if (canEdit && (e.key === "Delete" || e.key === "Backspace") && store.selection.size) {
-        ;[...store.selection].forEach((id) => { const o = store.objects.get(id); if (o && !o.locked) actions.deleteObj(id) })
-        store.selection.clear(); store.bump(); e.preventDefault()
+        deleteSelection(store, actions); e.preventDefault()
+      }
+      if (canEdit && store.canTransform) {
+        const mod = e.ctrlKey || e.metaKey
+        if (mod && e.key.toLowerCase() === "a") { selectAll(store); e.preventDefault() }
+        else if (mod && e.key.toLowerCase() === "d" && store.selection.size) { duplicateSelection(store, actions, me.id); e.preventDefault() }
+        else if (e.key === "Escape" && store.selection.size) { store.selection.clear(); store.bump() }
       }
     }
     const ku = (e: KeyboardEvent) => { if (e.code === "Space") space.current = false }
     window.addEventListener("keydown", kd); window.addEventListener("keyup", ku)
     return () => { window.removeEventListener("keydown", kd); window.removeEventListener("keyup", ku) }
-  }, [store, actions, canEdit])
+  }, [store, actions, canEdit, me.id])
 
   useEffect(() => {
     store.canTransform = tool === "select" && canEdit
@@ -235,7 +253,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
   // permission revoked while drawing / typing → drop the unfinished work
   useEffect(() => {
     if (canEdit) return
-    cur.current = null; drag.current = null; xform.current = null; erasing.current = false; textStart.current = null
+    cur.current = null; drag.current = null; xform.current = null; erasing.current = false; textStart.current = null; marq.current = null
     if (editor) cancelText()
   }, [canEdit]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -246,13 +264,18 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
     if (tool === "select") {
       const hd = handleAt(p.wx, p.wy)
       const sole = store.selection.size === 1 ? store.objects.get([...store.selection][0]) : undefined
-      if (hd && sole) { xform.current = { h: hd, orig: { ...sole }, px: p.wx, py: p.wy, moved: false }; return }
+      if (hd && sole) { xform.current = { h: hd, orig: { ...sole }, px: hd.x, py: hd.y, moved: false }; return }
       const hit = pickObj(store.objects, p.wx, p.wy, tolW())
-      if (e.shiftKey) {
-        if (hit) { if (store.selection.has(hit.id)) store.selection.delete(hit.id); else store.selection.add(hit.id) }
+      if (e.shiftKey && hit) {
+        if (store.selection.has(hit.id)) store.selection.delete(hit.id); else store.selection.add(hit.id)
         store.bump(); return
       }
-      if (!hit) store.selection.clear()
+      if (!hit) {
+        // empty spot: start a selection rectangle (Shift = add to the current selection)
+        if (!e.shiftKey) store.selection.clear()
+        marq.current = { x0: p.wx, y0: p.wy, x1: p.wx, y1: p.wy, add: e.shiftKey, base: new Set(store.selection), moved: false }
+        store.bump(); return
+      }
       else if (!store.selection.has(hit.id)) store.selection = new Set([hit.id])
       store.bump()
       if (hit && !hit.locked) {
@@ -263,7 +286,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       return
     }
     if (tool === "pen") cur.current = { id: uid(), type: "pen", color, width, by: me.id, pts: [[p.wx, p.wy]] }
-    else if (tool === "arrow" || tool === "rect") cur.current = { id: uid(), type: tool, color, width, by: me.id, x: p.wx, y: p.wy, x2: p.wx, y2: p.wy }
+    else if (tool === "arrow" || SHAPE_OF[tool]) cur.current = { id: uid(), type: tool === "arrow" ? "arrow" : SHAPE_OF[tool]!, color, width, by: me.id, x: p.wx, y: p.wy, x2: p.wx, y2: p.wy }
     else if (tool === "connector") {
       const a = pickObj(store.objects, p.wx, p.wy, tolW(), { elementsOnly: true })
       cur.current = { id: uid(), type: "connector", color, width, by: me.id, x: p.wx, y: p.wy, x2: p.wx, y2: p.wy, from: a?.id }
@@ -297,6 +320,14 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
       store.commit(n); actions.moveLive(n)
       return
     }
+    if (marq.current) {
+      const m = marq.current
+      m.x1 = p.wx; m.y1 = p.wy
+      if (!m.moved && Math.hypot(m.x1 - m.x0, m.y1 - m.y0) * store.view.s < 4) return
+      m.moved = true
+      store.selection = new Set([...m.base, ...objectsInRect(store, m.x0, m.y0, m.x1, m.y1)])
+      store.bump(); return
+    }
     if (pan.current) {
       store.view.x += e.clientX - pan.current.x
       store.view.y += e.clientY - pan.current.y
@@ -316,10 +347,20 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
     if (!o) return
     if (o.type === "pen") {
       const last = o.pts![o.pts!.length - 1]
-      if (Math.hypot(p.wx - last[0], p.wy - last[1]) * store.view.s < 1.5) return
+      if (Math.hypot(p.wx - last[0], p.wy - last[1]) * store.view.s < 2.5) return
       o.pts!.push([p.wx, p.wy])
     } else {
       o.x2 = p.wx; o.y2 = p.wy
+      const ox = o.x || 0, oy = o.y || 0, ddx = p.wx - ox, ddy = p.wy - oy
+      if (BOX_SHAPES.has(o.type) && (tool === "square" || tool === "circle" || e.shiftKey)) {
+        // perfect square / circle (Shift on any box shape does the same)
+        const m = Math.max(Math.abs(ddx), Math.abs(ddy))
+        o.x2 = ox + (ddx < 0 ? -m : m); o.y2 = oy + (ddy < 0 ? -m : m)
+      } else if (e.shiftKey && (o.type === "line" || o.type === "arrow")) {
+        // snap to 45° steps
+        const ang = Math.round(Math.atan2(ddy, ddx) / (Math.PI / 4)) * (Math.PI / 4), len = Math.hypot(ddx, ddy)
+        o.x2 = ox + Math.cos(ang) * len; o.y2 = oy + Math.sin(ang) * len
+      }
       if (o.type === "connector") o.to = pickObj(store.objects, p.wx, p.wy, tolW(), { elementsOnly: true, exclude: o.from })?.id
     }
     actions.sendLive({ ...o })
@@ -327,6 +368,7 @@ export function Whiteboard({ store, actions, me, tool, color, setColor, width, f
 
   const onUp = (e: React.PointerEvent) => {
     pan.current = null
+    if (marq.current) { marq.current = null; store.bump() }
     erasing.current = false
     const d = drag.current
     drag.current = null

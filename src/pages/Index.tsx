@@ -1,12 +1,11 @@
 import { useState } from "react"
 import { JoinDialog } from "@/components/JoinForm"
 import { Masthead } from "@/components/landing/Masthead"
-import { HeroFrame } from "@/components/landing/HeroFrame"
-import { Marquee } from "@/components/landing/Marquee"
-import { LeadStory } from "@/components/landing/LeadStory"
-import { FeatureIndex } from "@/components/landing/FeatureIndex"
-import { PullQuote } from "@/components/landing/PullQuote"
-import { QuickAnswers } from "@/components/landing/QuickAnswers"
+import { HeroStage } from "@/components/landing/HeroStage"
+import { Capabilities } from "@/components/landing/Capabilities"
+import { Flow } from "@/components/landing/Flow"
+import { Privacy } from "@/components/landing/Privacy"
+import { Faq } from "@/components/landing/Faq"
 import { SiteFooter } from "@/components/landing/SiteFooter"
 
 const Index = () => {
@@ -17,12 +16,11 @@ const Index = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Masthead onCreate={create} onJoin={join} />
       <main>
-        <HeroFrame onCreate={create} onJoin={join} />
-        <Marquee />
-        <LeadStory />
-        <FeatureIndex />
-        <PullQuote />
-        <QuickAnswers />
+        <HeroStage onCreate={create} onJoin={join} />
+        <Capabilities />
+        <Flow />
+        <Privacy />
+        <Faq />
       </main>
       <SiteFooter onCreate={create} onJoin={join} />
       <JoinDialog mode={dlg || "create"} open={dlg !== null} onOpenChange={(o) => !o && setDlg(null)} />

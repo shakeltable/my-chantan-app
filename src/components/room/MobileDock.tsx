@@ -1,12 +1,12 @@
 import { useState, type ReactNode } from "react"
-import { ChevronUp, CircleDot, FolderOpen, MessageSquare, Mic, MicOff, Moon, MonitorUp, Square, Sun, Users, Video, VideoOff } from "lucide-react"
+import { ChevronUp, FolderOpen, Loader2, Camera, MessageSquare, Mic, MicOff, Moon, MonitorUp, Sun, Users, Video, VideoOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Media } from "@/hooks/useMedia"
 import type { PanelId } from "./RoomTopBar"
 import { useTranslation } from "react-i18next"
 
 interface Props {
-  media: Media; isAdmin: boolean; recOn: boolean; onToggleRec: () => void
+  media: Media; isAdmin: boolean; onShot: () => void; shotBusy: boolean
   panel: PanelId; setPanel: (p: PanelId) => void; count: number
   dark: boolean; onToggleDark: () => void
   /** the drawing tools row */
@@ -18,7 +18,7 @@ const b = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-
 const on = "border-primary bg-primary text-primary-foreground"
 
 /** Phone layout: everything except the board lives in this collapsible dock at the very bottom. */
-export function MobileDock({ media, isAdmin, recOn, onToggleRec, panel, setPanel, count, dark, onToggleDark, children }: Props) {
+export function MobileDock({ media, isAdmin, onShot, shotBusy, panel, setPanel, count, dark, onToggleDark, children }: Props) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(() => localStorage.getItem(KEY) === "open")
   const toggle = () => setOpen((o) => { localStorage.setItem(KEY, o ? "closed" : "open"); return !o })
@@ -41,14 +41,14 @@ export function MobileDock({ media, isAdmin, recOn, onToggleRec, panel, setPanel
             <button className={cn(b, media.micOn && on)} onClick={media.toggleMic} aria-label={t("الميكروفون")}>{media.micOn ? <Mic className="h-4 w-4" /> : <MicOff className="h-4 w-4" />}</button>
             {canShare && <button className={cn(b, media.screenOn && on)} onClick={media.toggleScreen} aria-label={t("مشاركة الشاشة")}><MonitorUp className="h-4 w-4" /></button>}
             <button className={b} onClick={onToggleDark} aria-label={t("لون خلفية السبورة")}>{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
-            {isAdmin && <button className={cn(b, recOn && "border-destructive bg-destructive text-destructive-foreground")} onClick={onToggleRec} aria-label={t("تسجيل")}>{recOn ? <Square className="h-4 w-4" /> : <CircleDot className="h-4 w-4" />}</button>}
+            {isAdmin && <button className={b} onClick={onShot} disabled={shotBusy} aria-label={t("التقاط السبورة")}>{shotBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}</button>}
             <div className="mx-0.5 h-6 w-px shrink-0 bg-border" />
             <button className={cn(b, panel === "chat" && on)} onClick={() => pan("chat")} aria-label={t("الدردشة")}><MessageSquare className="h-4 w-4" /></button>
             <button className={cn(b, "w-auto gap-1 px-2.5", panel === "people" && on)} onClick={() => pan("people")} aria-label={t("المشاركون")}>
               <Users className="h-4 w-4" /><span className="text-xs font-bold">{count}</span>
               {pending > 0 && <span className="absolute -top-1 -end-1 rounded-full bg-destructive px-1.5 text-[10px] font-bold text-destructive-foreground">{pending}</span>}
             </button>
-            <button className={cn(b, panel === "files" && on)} onClick={() => pan("files")} aria-label={t("الملفات والتسجيلات")}><FolderOpen className="h-4 w-4" /></button>
+            <button className={cn(b, panel === "files" && on)} onClick={() => pan("files")} aria-label={t("الملفات")}><FolderOpen className="h-4 w-4" /></button>
           </div>
           {children}
         </>

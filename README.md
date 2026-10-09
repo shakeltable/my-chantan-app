@@ -6,7 +6,7 @@ Built with **[Chantan](https://chantan.studio)** — describe what you want, the
 
 - **Edit this project:** [open it in Chantan](https://chantan.studio/dashboard/project/abb72782-4382-4420-8b6a-016c9be92795)
 - **Live site:** [roomboard.chantan.one](https://roomboard.chantan.one)
-- **Repository:** `my-chantan-app` (private)
+- **Repository:** `shakeltable/my-chantan-app` (private)
 
 ## How do I change this app?
 
@@ -22,7 +22,7 @@ You need [Node.js](https://nodejs.org) installed. Then:
 
 ```bash
 # 1. Clone this repository
-git clone https://github.com/<your-username>/my-chantan-app.git
+git clone https://github.com/shakeltable/my-chantan-app.git
 
 # 2. Go into the folder
 cd my-chantan-app

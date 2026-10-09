@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react"
 import { Link } from "react-router-dom"
-import { Ban, KeyRound, Loader2, PenTool } from "lucide-react"
+import { Ban, KeyRound, Loader2 } from "lucide-react"
+import { Wordmark } from "@/components/Wordmark"
 import { emailHash, getAccess, isBanned, isUnlocked, markUnlocked, verifyPassword, type AccessRow } from "@/lib/roomAccess"
 import type { Profile, RoomRow } from "@/lib/roomboard"
 import { Button } from "@/components/ui/button"
@@ -13,7 +14,7 @@ function Shell({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-5 py-12">
-      <Link to="/" className="mb-8 flex items-center gap-2 font-bold"><PenTool className="h-5 w-5 text-accent" />{t("روم بورد")}</Link>
+      <Link to="/" className="mb-8 flex items-center text-xl" aria-label={t("Room Board")}><Wordmark /></Link>
       {children}
     </div>
   )

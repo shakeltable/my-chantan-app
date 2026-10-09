@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { Loader2, PenTool } from "lucide-react"
+import { Loader2 } from "lucide-react"
+import { Wordmark } from "@/components/Wordmark"
 import { supabase } from "@/lib/chantan-db"
 import { getProfile, normalizeCode, type Profile, type RoomRow } from "@/lib/roomboard"
 import { JoinForm } from "@/components/JoinForm"
-import { RecordingsList } from "@/components/room/FilesPanel"
 import { Button } from "@/components/ui/button"
 import RoomView from "@/components/room/RoomView"
 import { AccessGate } from "@/components/room/AccessGate"
+import { SessionReport } from "@/components/room/SessionReport"
+import { SnapGallery } from "@/components/room/SnapGallery"
 import { useTranslation } from 'react-i18next'
 
 type State = { s: "loading" } | { s: "missing" } | { s: "ended"; room: RoomRow } | { s: "ok"; room: RoomRow }
@@ -16,7 +18,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-5 py-12">
-      <Link to="/" className="mb-8 flex items-center gap-2 font-bold"><PenTool className="h-5 w-5 text-accent" />{t("روم بورد")}</Link>
+      <Link to="/" className="mb-8 flex items-center text-xl" aria-label={t("Room Board")}><Wordmark /></Link>
       {children}
     </div>
   )
@@ -42,7 +44,7 @@ export default function Room() {
     return () => { dead = true }
   }, [code])
 
-  useEffect(() => { document.title = t("روم بورد — غرفة {{code}}", { code }) }, [code, t])
+  useEffect(() => { document.title = `Room Board — ${code}` }, [code])
 
   if (state.s === "loading") return <div className="flex min-h-screen items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
 
@@ -54,13 +56,15 @@ export default function Room() {
     </Shell>
   )
 
+  if (state.s === "ended" && profile && profile.id === state.room.admin_id) return <SessionReport code={code} roomName={state.room.name} />
+
   if (state.s === "ended") return (
     <Shell>
       <p className="text-sm font-semibold text-accent">{t("انتهت الجلسة")}</p>
       <h1 className="mt-1 text-2xl font-extrabold">{t("أُغلقت الغرفة «")}{state.room.name}»</h1>
-      <p className="mb-5 mt-2 text-muted-foreground">{t("يمكنك مشاهدة التسجيلات المحفوظة لهذه الغرفة:")}</p>
-      <div className="rounded-[8px] border-[1.5px] border-border"><RecordingsList code={code} refreshKey={0} /></div>
+      <p className="mt-2 text-muted-foreground">{t("انتهت هذه الجلسة. يمكنك العودة إلى الصفحة الرئيسية وبدء غرفة جديدة.")}</p>
       <Button asChild className="mt-6 self-start"><Link to="/">{t("العودة إلى الرئيسية")}</Link></Button>
+      <SnapGallery code={code} className="mt-8" />
     </Shell>
   )
 

@@ -4,6 +4,29 @@ import i18n from "./i18n"
 export type Lookup = Map<string, BoardObj>
 type Pt = { x: number; y: number }
 
+/** Shapes drawn inside a dragged box (rectangle, circle/oval, triangle, diamond, star). */
+export const BOX_SHAPES = new Set<string>(["rect", "ellipse", "triangle", "diamond", "star"])
+
+function drawBox(ctx: CanvasRenderingContext2D, o: BoardObj) {
+  const { x = 0, y = 0, x2 = 0, y2 = 0 } = o
+  const l = Math.min(x, x2), r = Math.max(x, x2), tp = Math.min(y, y2), b = Math.max(y, y2)
+  const cx = (l + r) / 2, cy = (tp + b) / 2, hw = (r - l) / 2, hh = (b - tp) / 2
+  ctx.beginPath()
+  if (o.type === "rect") ctx.rect(l, tp, r - l, b - tp)
+  else if (o.type === "ellipse") ctx.ellipse(cx, cy, Math.max(0.5, hw), Math.max(0.5, hh), 0, 0, Math.PI * 2)
+  else if (o.type === "triangle") { ctx.moveTo(cx, tp); ctx.lineTo(r, b); ctx.lineTo(l, b); ctx.closePath() }
+  else if (o.type === "diamond") { ctx.moveTo(cx, tp); ctx.lineTo(r, cy); ctx.lineTo(cx, b); ctx.lineTo(l, cy); ctx.closePath() }
+  else if (o.type === "star") {
+    for (let i = 0; i < 10; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / 5, k = i % 2 ? 0.42 : 1
+      const px = cx + Math.cos(a) * hw * k, py = cy + Math.sin(a) * hh * k
+      i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)
+    }
+    ctx.closePath()
+  }
+  ctx.stroke()
+}
+
 // ---------- fonts ----------
 export const FONTS = [
   { id: "Vazirmatn", label: "فازير", w: 600 },
@@ -148,9 +171,10 @@ export function drawObj(ctx: CanvasRenderingContext2D, o: BoardObj, redraw: () =
     ctx.lineTo(p1.x - hl * Math.cos(a + 0.45), p1.y - hl * Math.sin(a + 0.45))
     ctx.stroke()
     ctx.beginPath(); ctx.arc(p0.x, p0.y, 2 + o.width * 0.6, 0, Math.PI * 2); ctx.fill()
-  } else if (o.type === "rect") {
-    const { x = 0, y = 0, x2 = 0, y2 = 0 } = o
-    ctx.strokeRect(x, y, x2 - x, y2 - y)
+  } else if (BOX_SHAPES.has(o.type)) {
+    drawBox(ctx, o)
+  } else if (o.type === "line") {
+    ctx.beginPath(); ctx.moveTo(o.x || 0, o.y || 0); ctx.lineTo(o.x2 || 0, o.y2 || 0); ctx.stroke()
   } else if (o.type === "text") {
     ensureFont(o.font, redraw)
     ctx.font = fontCss(o)
@@ -185,7 +209,7 @@ export function objBounds(o: BoardObj, objs?: Lookup): [number, number, number, 
     const r = o.width / 2
     return [a - r, b - r, c + r, d + r]
   }
-  if (o.type === "arrow" || o.type === "rect") {
+  if (o.type === "arrow" || o.type === "line" || BOX_SHAPES.has(o.type)) {
     const { x = 0, y = 0, x2 = 0, y2 = 0 } = o
     return [Math.min(x, x2), Math.min(y, y2), Math.max(x, x2), Math.max(y, y2)]
   }
@@ -219,7 +243,7 @@ export function hitObj(o: BoardObj, px: number, py: number, tol: number, objs?: 
     }
     return false
   }
-  if (o.type === "arrow") return segDist(px, py, o.x || 0, o.y || 0, o.x2 || 0, o.y2 || 0) <= tl
+  if (o.type === "arrow" || o.type === "line") return segDist(px, py, o.x || 0, o.y || 0, o.x2 || 0, o.y2 || 0) <= tl
   if (o.type === "connector") {
     const cv = connectorCurve(o, objs)
     let prev = bez(cv, 0)
@@ -231,7 +255,7 @@ export function hitObj(o: BoardObj, px: number, py: number, tol: number, objs?: 
     return false
   }
   const [a, b, c, d] = objBounds(o)
-  if (o.type === "rect") {
+  if (BOX_SHAPES.has(o.type)) {
     const inner = px > a + tl && px < c - tl && py > b + tl && py < d - tl
     return px >= a - tl && px <= c + tl && py >= b - tl && py <= d + tl && !inner
   }
@@ -249,7 +273,7 @@ export function pickObj(objs: Lookup, px: number, py: number, tol: number, opts:
       const [a, b, c, d] = objBounds(o)
       return px >= a - tol && px <= c + tol && py >= b - tol && py <= d + tol
     }
-    if (o.type === "pen" || o.type === "arrow" || o.type === "connector") return hitObj(o, px, py, tol, objs)
+    if (o.type === "pen" || o.type === "arrow" || o.type === "line" || o.type === "connector") return hitObj(o, px, py, tol, objs)
     const [a, b, c, d] = objBounds(o)
     return px >= a - tol && px <= c + tol && py >= b - tol && py <= d + tol
   })
@@ -285,12 +309,17 @@ export function scaleObj(o: BoardObj, kx: number, ky: number, ax: number, ay: nu
 export function handlesOf(o: BoardObj, objs: Lookup, s: number) {
   if (o.locked || o.type === "connector") return []
   const [a, b, c, d] = objBounds(o, objs), p = 6 / s
-  const A = a - p, B = b - p, C = c + p, D = d + p
+  const A = a - p, B = b - p, C = c + p, D = d + p, M = (A + C) / 2, N = (B + D) / 2
   return [
     { x: A, y: B, ax: C, ay: D, cur: "nwse-resize" },
     { x: C, y: B, ax: A, ay: D, cur: "nesw-resize" },
     { x: A, y: D, ax: C, ay: B, cur: "nesw-resize" },
     { x: C, y: D, ax: A, ay: B, cur: "nwse-resize" },
+    // edge handles (stretch / scale from the opposite side)
+    { x: M, y: B, ax: M, ay: D, cur: "ns-resize" },
+    { x: M, y: D, ax: M, ay: B, cur: "ns-resize" },
+    { x: A, y: N, ax: C, ay: N, cur: "ew-resize" },
+    { x: C, y: N, ax: A, ay: N, cur: "ew-resize" },
   ]
 }
 

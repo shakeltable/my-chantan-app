@@ -1,8 +1,8 @@
-export type Tool = "select" | "hand" | "pen" | "arrow" | "connector" | "rect" | "text" | "eraser"
+export type Tool = "select" | "hand" | "pen" | "arrow" | "connector" | "rect" | "square" | "circle" | "ellipse" | "triangle" | "diamond" | "star" | "line" | "text" | "eraser"
 
 export interface BoardObj {
   id: string
-  type: "pen" | "arrow" | "connector" | "rect" | "text" | "image" | "file"
+  type: "pen" | "arrow" | "connector" | "rect" | "ellipse" | "triangle" | "diamond" | "star" | "line" | "text" | "image" | "file"
   color: string
   width: number
   by: string

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "sonner"
-import { BarChart3, CircleDollarSign, ExternalLink, LogOut, Megaphone, Radar, ShieldCheck, UserCog } from "lucide-react"
+import { BarChart3, CircleDollarSign, ExternalLink, LogOut, Megaphone, Radar, ShieldCheck, UserCog, Users } from "lucide-react"
 import { supabase } from "@/lib/chantan-db"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,10 +10,11 @@ import { AnalyticsView } from "@/components/admin/AnalyticsView"
 import { PixelsSettings } from "@/components/admin/PixelsSettings"
 import { GoogleAdsSettings } from "@/components/admin/AdSettings"
 import { AccountSettings } from "@/components/admin/AccountSettings"
+import { Attendees } from "@/components/admin/Attendees"
 import { useTranslation } from "react-i18next"
 
 const isAdminUser = (u: any) => ["admin", "owner", "super"].includes(u?.app_metadata?.role)
-type Tab = "analytics" | "ads" | "google" | "pixels" | "account"
+type Tab = "analytics" | "attendees" | "ads" | "google" | "pixels" | "account"
 
 export default function Admin() {
   const { t } = useTranslation()
@@ -29,6 +30,11 @@ export default function Admin() {
     const { data } = supabase.auth.onAuthStateChange((_e, session) => { setUser(session?.user ?? null) })
     return () => data.subscription.unsubscribe()
   }, [])
+
+  // admin visit = housekeeping: delete recordings older than 3 hours (files + records)
+  useEffect(() => {
+    if (user && isAdminUser(user)) Promise.resolve(supabase.functions.invoke("purge-recordings", { body: {} })).catch(() => undefined)
+  }, [user])
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -60,6 +66,7 @@ export default function Admin() {
 
   const tabs: { id: Tab; label: string; icon: JSX.Element }[] = [
     { id: "analytics", label: t("الإحصائيات"), icon: <BarChart3 className="h-4 w-4" /> },
+    { id: "attendees", label: t("الحاضرون"), icon: <Users className="h-4 w-4" /> },
     { id: "ads", label: t("الإعلانات"), icon: <Megaphone className="h-4 w-4" /> },
     { id: "google", label: t("Google AdSense"), icon: <CircleDollarSign className="h-4 w-4" /> },
     { id: "pixels", label: t("بيكسلات التتبع"), icon: <Radar className="h-4 w-4" /> },
@@ -87,6 +94,7 @@ export default function Admin() {
           ))}
         </nav>
         {tab === "analytics" && <AnalyticsView />}
+        {tab === "attendees" && <Attendees />}
         {tab === "ads" && <AdsManager />}
         {tab === "google" && <GoogleAdsSettings />}
         {tab === "pixels" && <PixelsSettings />}

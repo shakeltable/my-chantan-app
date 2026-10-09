@@ -64,8 +64,8 @@
     /* Typography — durable premium floor. First builds/redesigns may replace
        these with a project-specific font system chosen from the prompt, but
        Arabic/RTL and Latin text never fall to plain browser defaults. */
-    --font-sans: 'Vazirmatn', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --font-display: 'Vazirmatn', 'IBM Plex Sans Arabic', 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Instrument Sans', 'Vazirmatn', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-display: 'Bricolage Grotesque', 'Vazirmatn', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
 
     --sidebar-background: 40 30% 98%;
     --sidebar-foreground: 240 10% 26%;
@@ -221,7 +221,13 @@
 /* روم بورد — Arabic typography + marquee */
 html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4 { letter-spacing: 0; line-height: 1.3; }
 html[lang="ar"] body { font-feature-settings: normal; }
-@keyframes rb-marquee { from { transform: translateX(0); } to { transform: translateX(50%); } }
+@keyframes rb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes rb-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(14px, -10px); } }
+@keyframes rb-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.rb-drift { animation: rb-drift 5s ease-in-out infinite; }
+.rb-drift-b { animation: rb-drift 6.5s ease-in-out -2s infinite reverse; }
+.rb-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rb-draw 1.4s ease-out 0.8s forwards; }
+@media (prefers-reduced-motion: reduce) { .rb-drift, .rb-drift-b { animation: none; } .rb-draw { animation: none; stroke-dashoffset: 0; } }
 .rb-marquee-track { animation: rb-marquee 40s linear infinite; width: max-content; }
 @media (prefers-reduced-motion: reduce) { .rb-marquee-track { animation: none; } }
 

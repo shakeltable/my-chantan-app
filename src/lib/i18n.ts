@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next'
 export const RTL_LANGS = new Set(['ar', 'ary', 'arq', 'aeb', 'he', 'fa', 'ur', 'ps', 'sd', 'yi', 'dv'])
 
 const SAVED_LANG_KEY = 'app:lang'
-const DEFAULT_LANG = 'ar'
+const DEFAULT_LANG = 'en'
 
 const localeModules = import.meta.glob('@/locales/*.json', { eager: true }) as Record<string, { default: Record<string, string> }>
 const resources: Record<string, { translation: Record<string, string> }> = {}

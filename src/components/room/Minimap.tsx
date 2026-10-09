@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import type { BoardStore } from "@/lib/boardStore"
-import { objBounds, viewColor } from "@/lib/boardDraw"
+import { BOX_SHAPES, objBounds, viewColor } from "@/lib/boardDraw"
 import { useTranslation } from 'react-i18next'
 
 export function Minimap({ store, compact }: { store: BoardStore; compact?: boolean }) {
@@ -39,13 +39,13 @@ export function Minimap({ store, compact }: { store: BoardStore; compact?: boole
           ctx.beginPath()
           o.pts.forEach((p, i) => (i ? ctx.lineTo(tx(p[0]), ty(p[1])) : ctx.moveTo(tx(p[0]), ty(p[1]))))
           ctx.stroke()
-        } else if (o.type === "arrow") {
+        } else if (o.type === "arrow" || o.type === "line") {
           ctx.beginPath(); ctx.moveTo(tx(o.x || 0), ty(o.y || 0)); ctx.lineTo(tx(o.x2 || 0), ty(o.y2 || 0)); ctx.stroke()
         } else if (o.type === "connector") {
           ctx.beginPath(); ctx.moveTo(tx(o.x || 0), ty(o.y || 0)); ctx.lineTo(tx(o.x2 || 0), ty(o.y2 || 0)); ctx.stroke()
         } else {
           const [x0, y0, x1, y1] = objBounds(o, store.objects)
-          if (o.type === "rect") ctx.strokeRect(tx(x0), ty(y0), (x1 - x0) * m, (y1 - y0) * m)
+          if (BOX_SHAPES.has(o.type)) ctx.strokeRect(tx(x0), ty(y0), (x1 - x0) * m, (y1 - y0) * m)
           else { ctx.globalAlpha = 0.35; ctx.fillRect(tx(x0), ty(y0), Math.max(2, (x1 - x0) * m), Math.max(2, (y1 - y0) * m)); ctx.globalAlpha = 1 }
         }
       })

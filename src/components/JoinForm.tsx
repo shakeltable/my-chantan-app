@@ -116,7 +116,7 @@ export function JoinDialog({ mode, open, onOpenChange }: { mode: "create" | "joi
   const { t } = useTranslation()
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg rounded-[8px] border-[1.5px]" dir="rtl">
+      <DialogContent className="max-w-lg rounded-[8px] border-[1.5px]">
         <DialogHeader className="text-start">
           <DialogTitle className="text-xl">{mode === "create" ? t("ابدأ غرفة جديدة") : t("انضم بكود الغرفة")}</DialogTitle>
           <DialogDescription>{mode === "create" ? t("ستكون أنت المسؤول عن الغرفة، وتشارك الكود أو الرابط مع الآخرين.") : t("أدخل الكود الذي وصلك من منشئ الغرفة.")}</DialogDescription>

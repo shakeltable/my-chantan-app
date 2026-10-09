@@ -1,11 +1,11 @@
 {
  "v": 1,
- "at": "2026-10-07T21:59:02.848Z",
+ "at": "2026-10-09T17:22:47.108Z",
  "incomplete": true,
  "pendingKeysByLang": {
-  "fr": 0,
   "es": 0,
-  "en": 0
+  "en": 0,
+  "fr": 0
  },
  "a": [
   {
@@ -39,64 +39,16 @@
    "line": 16
   },
   {
-   "path": "src/components/landing/HeroFrame.tsx",
-   "reason": "unclassified",
-   "snippet": "start start",
-   "line": 18
-  },
-  {
-   "path": "src/components/landing/HeroFrame.tsx",
-   "reason": "unclassified",
-   "snippet": "end start",
-   "line": 18
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "الصوت والصورة",
-   "line": 33
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "كاميرا وميكروفون بإذن المسؤول",
-   "line": 33
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "المسؤول يقرّر من يتحدث، ويسحب الإذن في أي لحظة. وتستطيع مشاركة شاشتك مع الجميع.",
-   "line": 33
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "الملفات",
-   "line": 34
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "صور ومستندات على اللوحة نفسها",
-   "line": 34
-  },
-  {
-   "path": "src/components/landing/LeadStory.tsx",
-   "reason": "unclassified",
-   "snippet": "ارفع الصورة فتظهر على السبورة أمام الجميع، أما المستندات فتُحفظ وتُنزَّل لاحقًا.",
-   "line": 34
-  },
-  {
    "path": "src/components/room/Whiteboard.tsx",
    "reason": "unclassified",
    "snippet": "600 11px Vazirmatn, sans-serif",
-   "line": 100
+   "line": 113
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "template-logic",
    "snippet": "`${f.w} ${o.size || 28}px \"${f.id}\", Vazirmatn, sans-serif`",
-   "line": 23
+   "line": 46
   },
   {
    "path": "src/lib/roomboard.ts",
@@ -111,10 +63,10 @@
    "line": 99
   },
   {
-   "path": "src/components/landing/FeatureIndex.tsx",
-   "reason": "unclassified",
-   "snippet": "\"٠١\", \"٠٢\", \"٠٣\"",
-   "count": 6
+   "path": "src/pages/Room.tsx",
+   "reason": "template-outside-text-position",
+   "snippet": "Room Board —",
+   "line": 47
   }
  ],
  "b": [],
@@ -180,64 +132,82 @@
    "line": 19
   },
   {
-   "path": "src/components/room/FilesPanel.tsx",
-   "reason": "homegrown-dictionary",
-   "snippet": "tr()/translate() calls: الملفات · التسجيلات",
-   "count": 2
+   "path": "src/components/room/SessionReport.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Name",
+   "line": 45
+  },
+  {
+   "path": "src/components/room/SessionReport.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Email",
+   "line": 45
+  },
+  {
+   "path": "src/components/room/SessionReport.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Country",
+   "line": 45
+  },
+  {
+   "path": "src/components/room/SessionReport.tsx",
+   "reason": "unclassified-token",
+   "snippet": "Joined",
+   "line": 45
   },
   {
    "path": "src/components/room/Whiteboard.tsx",
    "reason": "unclassified-token",
    "snippet": "Vazirmatn",
-   "line": 203
+   "line": 221
   },
   {
    "path": "src/components/room/Whiteboard.tsx",
    "reason": "unclassified-token",
    "snippet": "[data-textbar]",
-   "line": 388
+   "line": 430
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "\"\", Vazirmatn, sans-serif",
-   "line": 25
+   "line": 48
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "24px \"\"",
-   "line": 33
+   "line": 56
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "أبجد abc",
-   "line": 33
+   "line": 56
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "600 11px Vazirmatn, sans-serif",
-   "line": 172
+   "line": 196
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "ملف مرفوع",
-   "line": 173
+   "line": 197
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "600 15px Vazirmatn, sans-serif",
-   "line": 174
+   "line": 198
   },
   {
    "path": "src/lib/boardDraw.ts",
    "reason": "excluded-dir-text",
    "snippet": "ملف",
-   "line": 175
+   "line": 199
   },
   {
    "path": "src/lib/chantan-ai.ts",
@@ -266,19 +236,19 @@
   {
    "path": "index.html",
    "reason": "tab-title",
-   "snippet": "<title>روم بورد — سبورة بيضاء تعاونية حيّة</title>"
+   "snippet": "<title>Room Board — The live whiteboard for teams, classes and frie</title>"
   },
   {
    "path": "src/",
    "reason": "db-content",
-   "snippet": "tables read by the app: site_ads, site_settings, rooms, room_access, analytics_events, messages, room_events, board_ops",
+   "snippet": "tables read by the app: site_ads, site_settings, board_snaps, rooms, session_reports, board_ops, room_access, room_members",
    "count": 8
   },
   {
    "path": "supabase/functions/_shared/cors.ts",
    "reason": "server-messages",
-   "snippet": "2 text(s) across 1 edge function file(s)",
-   "count": 2
+   "snippet": "6 text(s) across 2 edge function file(s)",
+   "count": 6
   },
   {
    "path": "src/",
@@ -295,6 +265,11 @@
    "path": "src/locales/ar.json",
    "reason": "foreign-script-key",
    "snippet": "Board"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "CSV"
   },
   {
    "path": "src/locales/ar.json",
@@ -319,7 +294,507 @@
   {
    "path": "src/locales/ar.json",
    "reason": "foreign-script-key",
+   "snippet": "Design sprint"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "k7m2xq"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Launch plan"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Customer interviews"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Ship Friday"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Sara · MA"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Leo · FR"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Leo"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Can I get the mic?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Admin"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Mic granted"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Everything a room needs."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "One canvas, one chat, one place for the files. Nothing to in"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Canvas"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "An endless board with a minimap."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Pan, zoom and jump anywhere. See every teammate's cursor wit"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "A hand drawing an arrow on a whiteboard"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Connect"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Curved arrows that follow your ideas."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Link any two elements. Move one and the arrow bends with it."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Shapes"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Circles, squares, stars and more."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Drop clean shapes in one drag, then resize, colour or lock t"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Documents and photos on a desk"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Files"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Photos and documents, right on the board."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Drop a file up to 25 MB and it lands in front of everyone."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Boards"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Up to 20 boards in tabs."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Live dots show who is on which board."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Chat that remembers"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Late joiners catch up on every message."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Lock anything"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Pinned elements can't be moved, edited or erased."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Camera and mic, by permission"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "The admin decides who speaks. Anyone can share their screen."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Speaks your language"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "English, Arabic, French and Spanish."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Board 1"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Board 2"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Board 3"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Quick answers."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Do I need an account?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "How do I invite people?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Who can turn on a camera or microphone?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Can I upload documents?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "What happens when the admin ends the session?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Can the host share a picture of the board?"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "No. Enter a name and an email, choose your country, and you "
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Copy the invite link from the top of the room, or send the s"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "The admin always can. Everyone else asks, and the admin appr"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Yes. Images and documents up to 25 MB appear on the board as"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "The room closes for everyone. The host sees the guest list w"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Yes. One click captures the board and every guest can downlo"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "In the room in ten seconds."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "No downloads, no accounts, no meeting-link roulette."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Create a room"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Share the link"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Think out loud"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Give it a name and, if you like, a password. You become its "
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Send the invite link or the six-letter code. Guests enter a "
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Draw, write, connect and talk. Snap the board and everyone c"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Think together"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "on one board."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "A live whiteboard for teams, classes and friends. Draw, writ"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Start a room"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Join with a code"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "No sign-up · Works in the browser · Four languages"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Snapshots for everyone"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Guest list to Google Sheets"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
    "snippet": "Room Board"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Features"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "How it works"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Privacy"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "FAQ"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Your room, your rules."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "The creator of a room is its admin. Nothing happens on the b"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Password-protected rooms."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Change it any time without kicking out the people already in"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "View-only by default."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Guests ask for edit rights; you approve one person or everyo"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Permanent bans."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "A banned guest is removed at once and can't come back with t"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Emails stay private."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Other guests never see your address. Only the host gets the "
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Session ended"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Guest list"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Name"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Email"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Country"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Send to Google Sheets"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Download CSV"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "When you end the room, the host sees names, emails and count"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Sara"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Morocco"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "France"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Ana"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Spain"
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Open a room. Bring everyone."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "Room Board."
+  },
+  {
+   "path": "src/locales/ar.json",
+   "reason": "foreign-script-key",
+   "snippet": "All rights reserved."
   },
   {
    "path": "src/locales/ar.json",

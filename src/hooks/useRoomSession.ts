@@ -25,9 +25,38 @@ export function useRoomSession(code: string, initial: Peer) {
     return () => { set!.delete(fn) }
   }, [])
 
-  const send = useCallback((event: string, payload: any) => {
-    chRef.current?.send({ type: "broadcast", event, payload })
+  /** previews (live strokes, pointers) are merged: only the newest of each kind goes out, a few times a second */
+  const pending = useRef(new Map<string, { event: string; payload: any }>())
+  const flushTimer = useRef<number | null>(null)
+
+  const raw = useCallback((event: string, payload: any, tries = 0) => {
+    const ch = chRef.current
+    if (!ch) return
+    Promise.resolve(ch.send({ type: "broadcast", event, payload }))
+      .then((r: any) => {
+        // a message the network refused is sent again shortly (important ones only)
+        if (r !== "ok" && tries < 3 && event !== "cursor" && event !== "live") window.setTimeout(() => raw(event, payload, tries + 1), 250 * (tries + 1))
+      })
+      .catch(() => { if (tries < 3 && event !== "cursor" && event !== "live") window.setTimeout(() => raw(event, payload, tries + 1), 300) })
   }, [])
+
+  const flush = useCallback(() => {
+    flushTimer.current = null
+    const items = [...pending.current.values()]
+    pending.current.clear()
+    items.forEach((m) => raw(m.event, m.payload))
+  }, [raw])
+
+  const send = useCallback((event: string, payload: any) => {
+    if (event === "live" || event === "cursor") {
+      pending.current.set(event === "cursor" ? "cursor" : `live:${payload?.id}`, { event, payload })
+      if (flushTimer.current === null) flushTimer.current = window.setTimeout(flush, 110)
+      return
+    }
+    // a finished stroke must never be overtaken by an older preview of itself
+    if (event === "obj" || event === "del" || event === "livedel") pending.current.delete(`live:${payload?.id}`)
+    raw(event, payload)
+  }, [raw, flush])
 
   const updateMeta = useCallback((patch: Partial<Peer>) => {
     metaRef.current = { ...metaRef.current, ...patch }
@@ -66,7 +95,11 @@ export function useRoomSession(code: string, initial: Peer) {
         if (s === "SUBSCRIBED") { await ch.track(metaRef.current); setStatus("ready") }
         else if (s === "CHANNEL_ERROR" || s === "TIMED_OUT") setStatus("error")
       })
-    return () => { chRef.current = null; supabase.removeChannel(ch) }
+    return () => {
+      if (flushTimer.current !== null) { clearTimeout(flushTimer.current); flushTimer.current = null }
+      pending.current.clear()
+      chRef.current = null; supabase.removeChannel(ch)
+    }
   }, [code, emit])
 
   return { peers, status, send, on, updateMeta }

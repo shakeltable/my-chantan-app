@@ -80,7 +80,7 @@ export function BoardTabs({ boards, current, peers, meId, canEdit, isAdmin, onSw
         })}
       </div>
       <AlertDialog open={!!del} onOpenChange={(o) => !o && setDel(null)}>
-        <AlertDialogContent dir="rtl">
+        <AlertDialogContent>
           <AlertDialogHeader className="text-start">
             <AlertDialogTitle>{t("حذف هذه اللوحة؟")}</AlertDialogTitle>
             <AlertDialogDescription>{t("ستُحذف اللوحة وكل ما فيها لدى جميع المشاركين، وسينتقل من كان عليها إلى اللوحة الأولى.")}</AlertDialogDescription>

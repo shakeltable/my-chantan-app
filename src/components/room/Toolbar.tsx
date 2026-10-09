@@ -1,4 +1,5 @@
-import { Eraser, Hand, Lock, ImagePlus, MousePointer2, MoveUpRight, Pencil, Spline, Square, Trash2, Type, Undo2 } from "lucide-react"
+import { Eraser, Hand, Lock, ImagePlus, MousePointer2, MoveUpRight, Pencil, Spline, Trash2, Type, Undo2 } from "lucide-react"
+import { ShapeMenu } from "./ShapeMenu"
 import type { Tool } from "@/lib/boardStore"
 import { PALETTE } from "@/lib/roomboard"
 import { cn } from "@/lib/utils"
@@ -21,7 +22,6 @@ const TOOLS: { id: Tool; label: string; icon: JSX.Element }[] = [
   { id: "pen", label: "قلم", icon: <Pencil className="h-[18px] w-[18px]" /> },
   { id: "arrow", label: "سهم", icon: <MoveUpRight className="h-[18px] w-[18px]" /> },
   { id: "connector", label: "سهم منحنٍ لربط العناصر", icon: <Spline className="h-[18px] w-[18px]" /> },
-  { id: "rect", label: "مستطيل", icon: <Square className="h-[18px] w-[18px]" /> },
   { id: "text", label: "كتابة", icon: <Type className="h-[18px] w-[18px]" /> },
   { id: "eraser", label: "ممحاة", icon: <Eraser className="h-[18px] w-[18px]" /> },
 ]
@@ -50,10 +50,13 @@ export function Toolbar({ tool, setTool, color, setColor, width, setWidth, isAdm
       ? "flex shrink-0 items-center gap-1 overflow-x-auto border-t-[1.5px] border-border bg-background px-2 py-1.5"
       : "absolute start-3 top-1/2 z-20 flex max-h-[88%] -translate-y-1/2 flex-col items-center gap-1 overflow-y-auto rounded-[8px] border-[1.5px] border-border bg-background/95 p-1.5 backdrop-blur"}>
       {TOOLS.map((tl) => (
-        <button key={tl.id} title={t(tl.label)} aria-label={t(tl.label)} onClick={() => setTool(tl.id)}
-          className={cn(btn, tool === tl.id && "bg-primary text-primary-foreground hover:bg-primary")}>
-          {tl.icon}
-        </button>
+        <span key={tl.id} className="contents">
+          <button title={t(tl.label)} aria-label={t(tl.label)} onClick={() => setTool(tl.id)}
+            className={cn(btn, tool === tl.id && "bg-primary text-primary-foreground hover:bg-primary")}>
+            {tl.icon}
+          </button>
+          {tl.id === "connector" && <ShapeMenu tool={tool} setTool={setTool} horizontal={H} />}
+        </span>
       ))}
       {sep}
       <div className={H ? "flex shrink-0 items-center gap-2 px-1" : "grid grid-cols-2 gap-1.5 p-0.5"}>

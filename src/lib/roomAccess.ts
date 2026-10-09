@@ -18,6 +18,11 @@ async function derive(pw: string, s: string) {
   return hex(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: enc.encode(s), iterations: 100000 }, key, 256))
 }
 
+const pwKey = (code: string) => `roomboard:pw:${code}`
+/** the room owner's browser remembers the password it set, so it can be mailed to everyone when the session ends */
+export const savedPassword = (code: string) => { try { return localStorage.getItem(pwKey(code)) || "" } catch { return "" } }
+const rememberPassword = (code: string, pw?: string) => { try { pw ? localStorage.setItem(pwKey(code), pw) : localStorage.removeItem(pwKey(code)) } catch { /* ignore */ } }
+
 export async function getAccess(code: string): Promise<AccessRow | null> {
   const { data, error } = await supabase.from("room_access").select("*").eq("room_code", code).maybeSingle()
   if (error) throw new Error(error.message)
@@ -31,6 +36,7 @@ export async function createAccess(code: string, password?: string) {
     room_code: code, pw_salt: s, pw_hash: password && s ? await derive(password, s) : null, pw_version: password ? 1 : 0,
   })
   if (error) throw new Error(error.message)
+  rememberPassword(code, password)
 }
 
 async function update(code: string, patch: Record<string, unknown>) {
@@ -46,6 +52,7 @@ export async function setRoomPassword(code: string, password: string) {
   if (!row) return createAccess(code, password || undefined)
   const s = password ? salt() : null
   await update(code, { pw_salt: s, pw_hash: password && s ? await derive(password, s) : null, pw_version: (row.pw_version || 0) + 1 })
+  rememberPassword(code, password)
 }
 
 export async function banPerson(code: string, id: string, ehash?: string) {

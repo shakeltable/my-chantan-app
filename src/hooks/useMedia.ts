@@ -31,12 +31,12 @@ function tune(pc: RTCPeerConnection, kind: Kind) {
       const p = s.getParameters()
       if (!p.encodings || !p.encodings.length) p.encodings = [{}]
       if (s.track.kind === "video") {
-        p.encodings[0].maxBitrate = kind === "screen" ? 900_000 : 700_000
-        p.encodings[0].maxFramerate = kind === "screen" ? 10 : 24
+        p.encodings[0].maxBitrate = kind === "screen" ? 600_000 : 700_000
+        p.encodings[0].maxFramerate = kind === "screen" ? 8 : 24
         if (kind === "screen") {
           // never send more than ~720p: a full 1080p/4K desktop is what made sharing heavy
           const w = s.track.getSettings().width || 0
-          if (w > 1280) p.encodings[0].scaleResolutionDownBy = Math.min(4, w / 1280)
+          if (w > 1152) p.encodings[0].scaleResolutionDownBy = Math.min(4, w / 1152)
         }
         ;(p as any).degradationPreference = kind === "screen" ? "balanced" : "maintain-framerate"
       } else p.encodings[0].maxBitrate = 40_000
@@ -281,14 +281,14 @@ export function useMedia({ session, code, meId, myName, adminId, isAdmin, peers 
       // prefer the WHOLE screen: sharing one tab/window freezes or goes black for viewers as soon as you switch away from it
       const st = await navigator.mediaDevices.getDisplayMedia({
         // light capture: ~720p at 10 fps, like the camera stream
-        video: { width: { ideal: 1280, max: 1600 }, height: { ideal: 720, max: 900 }, frameRate: { ideal: 10, max: 15 }, displaySurface: "monitor" },
+        video: { width: { ideal: 1152, max: 1280 }, height: { ideal: 648, max: 720 }, frameRate: { ideal: 8, max: 10 }, displaySurface: "monitor" },
         audio: false,
         selfBrowserSurface: "exclude", surfaceSwitching: "include", monitorTypeSurfaces: "include",
       } as any)
       const surface = (st.getVideoTracks()[0].getSettings() as any).displaySurface
       if (surface && surface !== "monitor") toast.info(t("لتتنقل بين النوافذ دون أن تظهر شاشة سوداء للمشاركين، اختر «الشاشة بالكامل» عند المشاركة"), { duration: 8000 })
       st.getVideoTracks()[0].contentHint = "motion"
-      st.getVideoTracks()[0].applyConstraints({ frameRate: { max: 15 } }).catch(() => undefined)
+      st.getVideoTracks()[0].applyConstraints({ frameRate: { max: 10 } }).catch(() => undefined)
       st.getVideoTracks()[0].onended = () => { stopScreen() }
       await publish("screen", st); setScreenOn(true); updateMeta({ screen: true })
     } catch (e: any) {

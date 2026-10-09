@@ -91,7 +91,7 @@ export function PeoplePanel({ peers, meId, isAdmin, media, roomCode, onBan, boar
       {isAdmin && <p className="p-4 text-xs leading-relaxed text-muted-foreground">{t("أنت المسؤول: السبورة للعرض فقط لكل المشاركين حتى تمنحهم إذن التحرير (زر القلم). فعّل أزرار الكاميرا والميكروفون بجانب كل مشارك لمنحه الإذن، واضغط عليها مجددًا لسحبه. زر الحظر يمنع المشارك نهائيًا من الدخول إلى هذه الغرفة.")}</p>}
       {isAdmin && <AccessAdmin code={roomCode} />}
       <AlertDialog open={!!target} onOpenChange={(o) => !o && setTarget(null)}>
-        <AlertDialogContent dir="rtl">
+        <AlertDialogContent>
           <AlertDialogHeader className="text-start">
             <AlertDialogTitle>{t("حظر")} {target?.name} {t("نهائيًا؟")}</AlertDialogTitle>
             <AlertDialogDescription>{t("سيُخرَج من الغرفة الآن، ولن يستطيع الدخول إليها مجددًا بهذا الجهاز أو بهذا البريد الإلكتروني.")}</AlertDialogDescription>
